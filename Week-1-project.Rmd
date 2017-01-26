@@ -1,6 +1,6 @@
 # Week 1 Project  
 
-## Your name should appear here!
+## David Shuman
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,25 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+## Elbridge Gerry
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Elbridge-gerry-painting.jpg/440px-Elbridge-gerry-painting.jpg)
+
+- Born in Marblehead, MA!
+
+- Gerrymandering is named after him, but his name is pronounced with a hard "g"
+
+Political positions:
+
+1. Member of U.S. House of Representatives (1789-1793)
+2. Ninth governor of Massachusetts (1810-1812)
+3. Fifth vice president of U.S. (1813-1814, died in office)
+
+More information is available on  [Wikipedia](https://en.wikipedia.org/wiki/Elbridge_Gerry)
+
+```{r}
+my_number<-sin(sqrt(pi))
+```
+```{r}
+(asin(my_number))^2
+```
