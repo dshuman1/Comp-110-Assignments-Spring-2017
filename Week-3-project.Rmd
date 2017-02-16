@@ -1,6 +1,6 @@
 # Week 3 Project
 
-## Your name should appear here! 
+## David Shuman
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -8,6 +8,104 @@ Compiled on `r date()`.
 ```{r include = FALSE}
 library(DataComputing)
 ```
-<!-- put your content after this line -->
 
-Here is my content!
+### Deconstructing Graphics
+
+```{r,fig.width=10}
+ggplot(data = CPS85, aes(x = exper, y = wage, color = married)) + geom_point() + facet_wrap( ~sector, nrow=2,ncol=4)
+```
+
+```{r,fig.width=10}
+ggplot(data = NCHS, aes(x = bmi)) + geom_density(aes(color = sex, fill=sex),alpha=.3) + facet_wrap(~pregnant)
+```
+
+### Wrangling
+
+#### Diamonds
+
+Each of the following tasks can be accomplished by a statement of the form
+
+diamonds %>% 
+  verb1( args1 ) %>% 
+  verb2( args2 ) %>% 
+  arrange(desc( args3 )) %>% 
+  head( 1 )
+  
+1. Which color diamonds seem to be largest on average (in terms of carats)?
+```{r}
+  diamonds %>%
+    group_by(color)%>%
+    summarise(avg.size=mean(carat))%>%
+    arrange(desc(avg.size))%>%
+    head(1)
+```
+
+2. Which clarity of diamonds has the largest average “table” per carat?
+```{r}
+  diamonds%>%
+    group_by(clarity)%>%
+    summarise(avg.table.per.carat=mean(table/carat))%>%
+    arrange(desc(avg.table.per.carat))%>%
+    head(1)
+```
+
+#### Voting
+
+1. How many cases are there?
+```{r}
+  Minneapolis2013%>%
+    summarise(ncase=n())
+```
+
+2. Who were the top 5 candidates in the `Second` vote selections?
+
+```{r}
+  Minneapolis2013%>%
+    group_by(Second)%>%
+    summarise(nvotes=n())%>%
+    arrange(desc(nvotes))%>%
+    head(5)
+```
+
+
+3. How many ballots are marked “undervote” in
+  - First choice selections?
+  - Second choice selections?
+  - Third choice selections?
+
+```{r}
+  Minneapolis2013%>%
+    group_by(First)%>%
+    summarise(nFirstVotes=n())%>%
+    filter(First=="undervote")
+
+  Minneapolis2013%>%
+    group_by(Second)%>%
+    summarise(nSecondVotes=n())%>%
+    filter(Second=="undervote")
+  
+  Minneapolis2013%>%
+    group_by(Third)%>%
+    summarise(nThirdVotes=n())%>%
+    filter(Third=="undervote")
+```
+4. What are the top 3 `Second` vote selections among people who voted for Betsy Hodges as their first choice?
+
+```{r}
+  Minneapolis2013%>%
+    filter(First=="BETSY HODGES")%>%
+    group_by(Second)%>%
+    summarise(nSecondVotes=n())%>%
+    arrange(desc(nSecondVotes))%>%
+    head(3)
+```
+
+5. Which `Precinct` had the highest fraction of `First` vote selections marked as “undervote”? (To calculate the fraction, use `mean(First == "undervote")` in the argument to `summarise()`.)
+
+```{r}
+  Minneapolis2013%>%
+    group_by(Precinct)%>%
+    summarise(percent.undervote=mean(First == "undervote"))%>%
+    arrange(desc(percent.undervote))%>%
+    head(1)
+```
